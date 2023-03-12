@@ -3,8 +3,22 @@
 {
 	"name": "Ubuntu",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+	// "image": "mcr.microsoft.com/devcontainers/base:focal",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"features": {
+		"ghcr.io/devcontainers/features/node:1": {
+			"nodeGypDependencies": true,
+			"version": "lts"
+		},
+		// "ghcr.io/devcontainers/features/python:1": {
+		// 	"installTools": true,
+		// 	"version": "3.9"
+		// },
+		"ghcr.io/devcontainers-contrib/features/typescript:2": {
+			"version": "latest"
+		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	}
 
