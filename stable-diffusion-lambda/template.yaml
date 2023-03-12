@@ -27,6 +27,14 @@ Resources:
             - '*'
           AllowOrigins: 
             - '*'
+      Events:
+        ScheduleEvent:
+          Type: Schedule
+          Properties:
+            Schedule: 'rate(60 minutes)'
+            Name: StableDiffusionSchedule
+            Description: schedule
+            Enabled: true
       Environment:
         Variables:
           TRANSFORMERS_CACHE: /tmp/.cache

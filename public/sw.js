@@ -2,7 +2,7 @@
 addEventListener('message', (event) => {
     // event は ExtendableMessageEvent オブジェクトです
     self.registration.showNotification(event.data, {
-      icon: '/img/icon.jpg'
+      icon: '/logo192.png'
     })
   });
   
