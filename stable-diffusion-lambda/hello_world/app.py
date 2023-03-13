@@ -18,6 +18,11 @@ def lambda_handler(event, context):
     prompt = os.environ['PROMPT']
     print(prompt)
 
+    if (not 'body' in event) or (event['body'] == ''):
+        return {
+            'message': 'body is empty'
+        }
+
     output_filename = '/tmp/image.jpg'
 
     try:

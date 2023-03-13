@@ -15,15 +15,19 @@ navigator.serviceWorker.register('/sw.js')
 
 
 function notification(message: string) {
-  Notification.requestPermission((result) => {
-    if (result === 'granted') {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.active?.postMessage(message);
-      });
-    } else {
-      alert(message)
-    }
-  });
+  if (Notification) {
+    Notification.requestPermission((result) => {
+      if (result === 'granted') {
+        navigator.serviceWorker.ready.then((registration) => {
+          registration.active?.postMessage(message);
+        });
+      } else {
+        alert(message)
+      }
+    });
+  } else {
+    alert(message)
+  }
 }
 
 export default function Page() {
