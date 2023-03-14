@@ -14,20 +14,20 @@ navigator.serviceWorker.register('/sw.js')
   });
 
 
-function notification(message: string) {
-  if (Notification) {
-    Notification.requestPermission((result) => {
-      if (result === 'granted') {
-        navigator.serviceWorker.ready.then((registration) => {
-          registration.active?.postMessage(message);
-        });
-      } else {
-        alert(message)
-      }
-    });
-  } else {
-    alert(message)
+function notification(message: string, fallback: boolean = false) {
+  if (!('Notification' in window)) {
+    if (fallback) alert(message)
+    return
   }
+  Notification.requestPermission((result) => {
+    if (result === 'granted') {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.active?.postMessage(message);
+      });
+    } else {
+      if (fallback) alert(message)
+    }
+  });
 }
 
 export default function Page() {
@@ -59,7 +59,7 @@ export default function Page() {
   const submit = function () {
     if (file) {
       setSubmitting(true)
-      notification('処理を開始します。完了したらお知らせします（10分以上かかることもあります）')
+      notification('リクエストを送信しました。処理完了後通知します。（10分以上かかることもあります）', true)
       fetch(lambdaUrl, {
         method: 'POST',
         body: file
@@ -73,7 +73,8 @@ export default function Page() {
         setImageSrc(URL.createObjectURL(data))
         notification('完了しました。')
       }).catch((error) => {
-        notification('エラーが発生しました。\n' + error)
+        notification('エラーが発生しました。')
+        alert(error)
         setSubmitting(false)
       });
     } else {
